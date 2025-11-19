@@ -1,7 +1,12 @@
 <?php
-    include '../bd/conexion.php';
-    $perfilRequerido = "SistemasIntegrados"; // <- único cambio
-    include '../php/validar_perfil.php';
+    // 1. Validar sesión primero (si no ha iniciado sesión → fuera)
+    include '../php/validar_sesion_be.php';
+
+    // 2. Validar si el usuario pertenece al tablero
+    $tableroRequerido = "SistemasIntegrados";   // ← Cambia según el tablero
+    include '../php/validar_tablero.php';
+    // Incluir menú lateral
+    include '../php/menu_lateral.php';
 ?>
 
 
@@ -91,6 +96,11 @@
         <div class="row">
             <div class="card border-info">
                 <br>
+                <!--INICIO BOTON BACK-->    
+                    <a href="../login.php" class="btn"   style="width: 70px; height: 50px; border-color: transparent;">
+                        <img style="width:70px; height:50px;" class="card-img-top" src="../static/img/flechaIzquierda.png" alt="Regresar Menu" >
+                    </a>
+                <!--FIN BOTON BACK--> 
                 <h1 class="card-title text-center" style="margin:auto;"><b>SISTEMAS INTEGRADOS</b></h1>
                 <div class="card-body">
                     <div class="card2 card-success">

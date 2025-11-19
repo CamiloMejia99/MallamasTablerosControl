@@ -1,13 +1,14 @@
 <?php
-    include '../bd/conexion.php';
-    $perfilRequerido = "AtencionUsuario"; // <- único cambio
-    include '../php/validar_perfil.php';
-    // Verificamos que el perfil corresponda a esta vista
-    // if ($_SESSION['perfil'] !== 'AtencionUsuario') {
-    //     header("Location: ../index.php");
-    //     exit;
-    // }
+    // 1. Validar sesión primero (si no ha iniciado sesión → fuera)
+    include '../php/validar_sesion_be.php';
+
+    // 2. Validar si el usuario pertenece al tablero
+    $tableroRequerido = "AtencionUsuario";   // ← Cambia según el tablero
+    include '../php/validar_tablero.php';
+    // Incluir menú lateral
+    include '../php/menu_lateral.php';
 ?>
+
 
 <!DOCTYPE html> 
 <html lang="en">
@@ -17,23 +18,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ATENCIÓN AL USUARIO</title>
-    <link rel="stylesheet" href="{{ url_for('../static', filename='css/style.css')}}">
-    <link rel="icon" type="image/x-icon" href="../assets/images/icon.jpg">
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="../static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-    <link rel="stylesheet" href="../static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <link rel="stylesheet" href="../static/plugins/jqvmap/jqvmap.min.css">
-    <link rel="stylesheet" href="{{ url_for('../static', filename='css/adminlte.min.css')}}">
-    <link rel="stylesheet" href="../static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <link rel="stylesheet" href="../static/plugins/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="../static/plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/adminlte.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@700&family=Source+Serif+Pro:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
 
@@ -48,7 +38,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
         .footer-fixed {
-            position: fixed;
+            position: fixed ;
             bottom: 0;
             left: 0;
             width: 100%;
@@ -95,6 +85,11 @@
         <div class="row">
             <div class="card border-info">
                 <br>
+                <!--INICIO BOTON BACK-->    
+                    <a href="../login.php" class="btn"   style="width: 70px; height: 50px; border-color: transparent;">
+                        <img style="width:70px; height:50px;" class="card-img-top" src="../static/img/flechaIzquierda.png" alt="Regresar Menu" >
+                    </a>
+                <!--FIN BOTON BACK--> 
                 <h1 class="card-title text-center" style="margin:auto;"><b>ATENCIÓN AL USUARIO</b></h1>
                 <div class="card-body">
                     <div class="card2 card-success">
@@ -292,8 +287,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <br><br><br><br>
+    </div> 
+
+    <br><br><br>
 
     <!-------------------------------------------BARRA FINAL COPYRIGHT-------------------------------------------------->
      <footer class="footer-fixed">
@@ -317,7 +313,7 @@
                     </button>
                 </div>
                 <div class="modal-body p-0">
-                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:0; overflow:hidden;">
+                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:520px; overflow:hidden;">
                     <iframe src="https://app.powerbi.com/view?r=eyJrIjoiNTI1NzMwMWMtZDQwZi00ZWRkLWJkZWMtNzUzYTZhOTI5ZGQzIiwidCI6ImIxMmQwMGE5LWZjYjMtNDgzNi1iMDk0LWU3ZWNmZDAyM2U5OSIsImMiOjR9"
                             allowFullScreen="true"
                             style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
@@ -343,7 +339,7 @@
                     </button>
                 </div>
                 <div class="modal-body p-0">
-                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:0; overflow:hidden;">
+                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:520px; overflow:hidden;">
                     <iframe src="https://app.powerbi.com/view?r=eyJrIjoiMjgxYWE0ZmQtMmI5OC00OTc2LWFiMGMtYmVhZjI1OTE1OWJlIiwidCI6ImIxMmQwMGE5LWZjYjMtNDgzNi1iMDk0LWU3ZWNmZDAyM2U5OSIsImMiOjR9"
                             allowFullScreen="true"
                             style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
@@ -368,7 +364,7 @@
                     </button>
                 </div>
                 <div class="modal-body p-0">
-                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:0; overflow:hidden;">
+                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:520px; overflow:hidden;">
                     <iframe src="https://app.powerbi.com/view?r=eyJrIjoiYjkxNzIwM2ItZDhkOS00MTM5LTkxNzctNzY5ZTU0NGY5NDJkIiwidCI6ImIxMmQwMGE5LWZjYjMtNDgzNi1iMDk0LWU3ZWNmZDAyM2U5OSIsImMiOjR9"
                             allowFullScreen="true"
                             style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
@@ -393,7 +389,7 @@
                     </button>
                 </div>
                 <div class="modal-body p-0">
-                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:0; overflow:hidden;">
+                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%;height:520px; overflow:hidden;">
                     <iframe src="https://app.powerbi.com/view?r=eyJrIjoiZWMyYmJmNzQtMWFmYy00MmNhLTk3MzgtMmQ5YmZjNzYwNzExIiwidCI6ImIxMmQwMGE5LWZjYjMtNDgzNi1iMDk0LWU3ZWNmZDAyM2U5OSIsImMiOjR9"
                             allowFullScreen="true"
                             style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
@@ -418,7 +414,7 @@
                     </button>
                 </div>
                 <div class="modal-body p-0">
-                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:0; overflow:hidden;">
+                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:520px; overflow:hidden;">
                     <iframe src="https://app.powerbi.com/view?r=eyJrIjoiOGJiMjgzNGMtM2RhZC00ZTk4LTk4YTEtMGZmOGQwMGNhZjc3IiwidCI6ImIxMmQwMGE5LWZjYjMtNDgzNi1iMDk0LWU3ZWNmZDAyM2U5OSIsImMiOjR9"
                             allowFullScreen="true"
                             style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
@@ -443,7 +439,7 @@
                     </button>
                 </div>
                 <div class="modal-body p-0">
-                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:0; overflow:hidden;">
+                    <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:520px; overflow:hidden;">
                     <iframe src="https://app.powerbi.com/view?r=eyJrIjoiM2M1MTkwZGItYTk4ZS00YjA4LThhYjEtOWEwZmYyMTg5NWIwIiwidCI6ImIxMmQwMGE5LWZjYjMtNDgzNi1iMDk0LWU3ZWNmZDAyM2U5OSIsImMiOjR9"
                             allowFullScreen="true"
                             style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">

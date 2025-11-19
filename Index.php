@@ -1,31 +1,35 @@
 <?php
-    include 'bd/conexion.php';
     session_start();
 
-    // Si ya está logueado, redirigir directamente a su perfil
+   // Si ya inició sesión, no permitir regresar al login
     if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
-        $perfil = $_SESSION['perfil'];
-        header("Location: perfilesUsuarios/perfil$perfil.php");
+        header("Location: login.php");
         exit;
     }
+
+    // Impedir que el navegador guarde la página en caché/historial
+    header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+    header("Cache-Control: post-check=0, pre-check=0", false);
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+
+
 ?>
 
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableros de control</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar sesion</title>
     <link rel="icon" type="image/x-icon" href="assets/images/icon.jpg">
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="static/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="static/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
@@ -37,422 +41,262 @@
     <link rel="stylesheet" href="static/plugins/summernote/summernote-bs4.min.css">
     <link rel="stylesheet" href="static/css/adminlte.min.css">
     <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@700&family=Source+Serif+Pro:ital,wght@1,600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
-        integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
-        crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@700&family=Source+Serif+Pro:ital,wght@1,600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
     <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
 
     <style>
+        .links {
+            font-size: 14px;
+        }
+        .links a {
+            color: #005599;
+            text-decoration: none;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
         .card-img-top {
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
-
 
         .card-img-top:hover {
             transform: scale(1.15);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         }
-    </style>
+       
+        .footer-fixed {
+            /* position: fixed; */
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fff; /* puedes cambiar el color */
+            border-top: 1px solid #ddd;
+            text-align: center;
+            padding: 10px;
+            z-index: 1030; /* asegura que quede encima de otros elementos */
+        }
 
+        button.btn-success {
+            padding: 10px 0 !important;
+            height: auto !important;
+            line-height: 1.5 !important;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+    </style>
+ 
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed" style="background-image: url('static/img/fondo3.png');background-size: cover;background-repeat: no-repeat; background-position: center;">
 
-    <div class="wrapper ">
-        <!--------------------------------------LOGO MALLAMAS CON ANIMACIONAL INICIO DE CADA VENTANA------------------------------------------------------->
-        <div class="wrapper">
-            <div class="preloader flex-column justify-content-center align-items-center">
-                <img class="animation__shake" src="static/img/logonegro.png" alt="MllS" height="150" width="150">
-            </div>
+    <!--LOGO MALLAMAS CON ANIMACIONAL INICIO DE CADA VENTANA-->
+    <div class="wrapper">
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="static/img/logonegro.png" alt="MllS" height="150" width="150">
         </div>
-        <!--------------------------------------------------------------------------------------------->
+    </div>
+    <!-------------------------------------------------------->
 
 
-        <!----------------------------------------BARRA LATERAL DE OPCIONES ----------------------------------------------------->
-        <aside class="main-sidebar sidebar-dark-info elevation-4">
+
+    <!--INICIO BARRA SUPERIOR-->  
+   <header>
+        <nav id="navbar-example2" class="navbar px-3 mb-3" style="background-color: #038f03ff;">
             <a href="index.php" class="brand-link">
-                <img src="static/img/logoCuadros.png" alt="MLLS LOGO" class="brand-image img-circle elevation-3">
-                <span class="brand-text font-weight-light">MALLAMAS</span>
+                <img src="static/img/CycLogo.png" alt="MLLS LOGO" class="brand-image ">
             </a>
-
-            <div class="sidebar">
-
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
-
-                        <li class="nav-item">
-                            <a href="mailto:contactenos@mallamaseps.com" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>Contactanos</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="http://190.121.144.12:8009/PQR" class="nav-link">
-                                <i class="nav-icon fas fa-file"></i>
-                                <p>Quejas y reclamos</p>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
-        <!--------------------------------------------------------------------------------------------->
+          
+        </nav>
+    </header>
+    <!--INICIO BARRA INFERIOR-->  
 
 
-        <!-------------------------------------BTONES DE REEENVÍO DEL TABLERO DE CONTROL------------------------------------------------------>
-   
 
-       
-        <div class="content-wrapper w" style=" background: url('static/img/fondo4.png');">
-            <div class="content-header">
-                <div class="container-fluid text-center">
-                    <div class="row mb-10">
-                        <br><br>
-                        <div id="contenedor" class="col-10">
-                            <div class="card border-info">
-                                <div class="card-body">
-                                    <div class="col-md-12">
-                                        <div class="card2 card-success">
-                                            <div class="card-header">
-                                                <h2 class="card-title" style="margin:auto;" set>TABLEROS DE CONTROL</h2>
-                                            </div>
-                                            <div class="container " style="background-color: #BFC4C4;">
-                                                <br>
-                                                <table style="table-layout: fixed; width: 100%;">
-                                                    <tr><!-------FILA 1---->
-                                                        <td style="width: 150px;">
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold"> ATENCIÓN AL USUARIO </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
+     
+	<div class="row h-100 justify-content-center align-items-center ">
 
-                                                                        <a href="login.php?id=1" >
-                                                                            <img src="static/img/c1.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td style="width: 150px;">
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold"> ALMACEN </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=2" >
-                                                                            <img src="static/img/c2.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td style="width: 150px;">
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold"> ASEGURAMIENTO
-                                                                        </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=3" >
-                                                                            <img src="static/img/c3.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td style="width: 150px;">
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">SISTEMAS INTEGRADOS </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=4" >
-                                                                            <img src="static/img/c4.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr><!-------FILA 2---->
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">CARTERA</h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=5" >
-                                                                            <img src="static/img/c5.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">COMUNICACIONES
-                                                                        </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=6" >
-                                                                            <img src="static/img/c6.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">CONTABILIDAD
-                                                                        </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=7" >
-                                                                            <img src="static/img/c7.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">SAOS</h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=8" >
-                                                                            <img src="static/img/c8.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr><!-------FILA 3---->
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">CONTRATACIONES
-                                                                        </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=9" >
-                                                                            <img src="static/img/c9.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">TABLEROS</h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=10" >
-                                                                            <img src="static/img/c10.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">SISTEMAS </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=11" >
-                                                                            <img src="static/img/c11.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">GESTION DEL RIESGO</h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=12" >
-                                                                            <img src="static/img/c12.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr><!-------FILA 4---->
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold"> <br> PLANEACIÓN </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=13" >
-                                                                            <img src="static/img/c13.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold">RADICACIÓN Y AUDITORÍA DE CUENTAS</h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=14" >
-                                                                            <img src="static/img/c14.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold"><br> RECOBROS
-                                                                        </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=15" >
-                                                                            <img src="static/img/c15.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="card-deck mb-3 text-center">
-                                                                <div class="card mb-4 shadow-sm">
-                                                                    <div class="card-header">
-                                                                        <h6 class="my-0 font-weight-bold"><br> TESORERÍA
-                                                                        </h6>
-                                                                    </div>
-                                                                    <div class="card-body">
-
-                                                                        <a href="login.php?id=16" >
-                                                                            <img src="static/img/c16.png"
-                                                                                class="card-img-top"
-                                                                                style="width:100px; height:100px; object-fit:contain; display:block; margin:auto;"
-                                                                                alt="MallamasImg">
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
+        <!--INICIO CONTENEDOR PRINCIPAL-->   
+		<div class="card col-11 border-black" style="background-color: #ffffffff;" >
+            <div class="container mt-2 rounded">
+                <!-- Fila 1 -->
+                <div class="row text-center border rounded">
+                    <div class="col-1  p-2">
+                       
+                    </div>
+                    <div class="col-10  p-2">
+                        <h1 class="text-success"><b>Sistema de Gestión de Tableros de Control</b></h1>
+                    </div>
+                    <div class="col-1  p-2"></div>
+                 </div>
+                <!-- Fila 2 -->
+                <div class="row text-left  border rounded">
+                    <div class="col-12 p-2">
+                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="static/img/carrucel/carr1.png" class="d-block w-100" height="400">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="static/img/carrucel/carr2.png" class="d-block w-100" height="400">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="static/img/carrucel/carr3.png" class="d-block w-100" height="400">
                                 </div>
                             </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" style="background-color: #84BB4E;"
+                                    aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon " style="background-color: #84BB4E;"
+                                    aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Fila 3 -->
+                <div class="row text-center border rounded">
+                    <div class="col-4  p-2">
+                        <!--INICIO LOGIN-->
+                        
+                        <div class="login-container">
+                            <h4 id="scrollspyHeading1"><b>Iniciar Sesión </b></h4>
+                            <div class="col-100">
+                                <form class="row g-3" name="contacto"  method="POST" action="php/iniciarSesion.php">
+                                    <div class="container" align="left">
+                                        <br>
+                                        <Label style= "color: #555;">Usuario:</Label>
+                                        <input type="text" name="codigo" placeholder="" class="form-control" id="validationDefault05" required>
+                                        <Label style = "color: #555">Contraseña:</Label>
+                                        <input type="password" name="contraseña" autocomplete="new-password" placeholder=" " class="form-control" id="validationDefault05" required>
+                                        <br><button class="btn btn-success border-dark text-white  w-100 " name="enviar" >Iniciar Sesion</button>
+                                        <input type="hidden" name="idTablero" value="<?php echo $id; ?>">
+                                    </div>
+                                </form>
+                                <br>
+                                <div  class="links">
+                                    <p><a href="#recuperarContraseña">¿Olvidaste tu contraseña?</a><br>
+                                    ¿No tienes cuenta? <a href="php/SolicitudesRegistro.php">Solicita tu Registro aquí</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--FIN LOGIN-->
+                    </div>
+                    <div class="col-8  border rounded p-2">
+                        <!-- TARJETA DE PRESENTACIÓN -->
+                        <div class="card shadow-lg border-0" style="background: linear-gradient(135deg, #e3f2fd, #ffffff); border-radius: 15px;">
+                            <div class="card-body text-start p-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="static/img/logoCuadros.png" alt="Logo Mallamas" style="width: 60px; height: 60px; margin-right: 15px;">
+                                    <h4 class="fw-bold text-success mb-0">Sistema de Gestión de Tableros de Control</h4>
+                                </div><br>
+                                
+                                <p style="color: #333; font-size: 15px; text-align: justify;">
+                                    Bienvenido al sistema <b>Sistema de Gestión de Tableros de Control</b>, una herramienta desarrollada para optimizar la administración de los tableros de gestión institucionales.
+                                    Este sistema permite gestionar los procesos, visualizar resultados en tiempo real y fortalecer la toma de decisiones basadas en datos.
+                                </p><br>
+                                
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="fas fa-users-cog text-info me-2"></i> Control de accesos por usuario</li>
+                                            <li><i class="fas fa-database text-warning me-2"></i> Integración con bases de datos</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="fas fa-bullseye text-danger me-2"></i> Evaluación de metas y logros</li>
+                                            <li><i class="fas fa-chart-pie text-primary me-2"></i> Visualización en Power BI</li>
+                                        </ul>
+                                    </div>
+                                </div><br>
+
+                                <div class="text-center mt-4">
+                                    <a href="https://www.mallamaseps.com/QuienesSomos/Index" class="btn btn-outline-success px-4" style="border-radius: 25px;">
+                                        <i class="fas fa-info-circle"></i> Conocer más
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FIN TARJETA DE PRESENTACIÓN -->
+
+                    </div>
+                </div>
+
+                <!-- Fila 4 -->
+                <div class="row text-left  border rounded">
+                    <div class="col-5 border p-2">
+                         <img src="static/img/supersaludYSaud.png" alt="SUPERSALUD" style="width: 520px; height: 168px; margin-right: 15px;">
+                    </div>
+                    <div class="col-3 border p-2">
+                        <h4><b><i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SIGUENOS </i></b></h4>
+                        <ul class="social-buttons" id="social-buttons">
+                                <li>
+                                    <a href="https://www.youtube.com/channel/UCO1YC3RpnSph2UzqLZg5-GA" target="_blank" class="btn btn-icon btn-neutral btn-youtube btn-round" style="font-size: 24px;" title="Youtube">
+                                        <i class="fab fa-youtube" style="font-size: 30px;" id="btnyoutube"></i>&nbsp;&nbsp;<b>YouTube</b>
+                                        
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/mallamaseps" target="_blank" class="btn btn-icon btn-neutral btn-facebook btn-round" style="font-size: 24px;" title="Facebook">
+                                        <i class="fab fa-facebook-square" style="font-size: 30px;" id="btnfacebook"></i>&nbsp;&nbsp;<b>Facebook</b>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/mallamaseps/" target="_blank" class="btn btn-icon btn-neutral btn-instagram btn-round" style="font-size: 24px;" title="Instagram">
+                                        <i class="fab fa-instagram" style="font-size: 30px;" id="btninstagram"></i>&nbsp;&nbsp;<b>Instagram</b>
+                                    </a>
+                                </li>
+                            </ul>
+                    </div>
+                    <div class="col-4 border p-2">
+                         <h4><b><i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CONTACTANOS </i></b></h4>
+                        <p>
+                            <b>Dirección Mallamas: </b> Carrera 1 norte No. 4-56 Avenida Panamericana Ipiales, Nariño<br><br>
+                             <b>Líneas de Atención:</b> <br>
+                            Línea Nacional: 01 8000 913 701 <br>
+                            Celulares: 317 4027290 - 321 8532502
+                        </p>
+                        </div>
+                </div>
             </div>
+
+
+
+
+            
+		</div>
+        <!--FIN CONTENEDOR PRINCIPAL-->   
+	</div>
+
+   <!-------------------------------------------BARRA FINAL COPYRIGHT-------------------------------------------------->
+     <footer class="footer-fixed">
+        <strong>Copyright &copy; 2025 <a target="_blank">COORDINACIÓN ESTADÍSTICA</a></strong> Todos los derechos
+        reservados.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 1.1.0
         </div>
-        <!--------------------------------------------------------------------------------------------->
-
-
-        <!-------------------------------------------BARRA FINAL COPYRIGHT-------------------------------------------------->
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2025 <a target="_blank">COORDINACIÓN ESTADÍSTICA</strong> Todos los derechos
-            reservados.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 1.1.0
-            </div>
-        </footer>
-        <aside class="control-sidebar control-sidebar-dark"></aside>
-        <!--------------------------------------------------------------------------------------------->
-    </div>
-
+    </footer>
+    <aside class="control-sidebar control-sidebar-dark"></aside>
     <!--------------------------------------------------------------------------------------------->
+
+        
+      
     <script src="static/plugins/jquery/jquery.min.js"></script>
     <script src="static/plugins/jquery-ui/jquery-ui.min.js"></script>
     <script>
@@ -472,8 +316,10 @@
     <script src="static/js/adminlte.js"></script>
     <script src="static/js/pages/dashboard.js"></script>
     <script src="static/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-    <script src="static/js/adminlte.min.js"></script>
-    <!--------------------------------------------------------------------------------------------->
+    <script src="static/js/adminlte.min.js"></script>   
+    <script src="static/js/confirmacion.js"></script>
 </body>
+
+
 
 </html>

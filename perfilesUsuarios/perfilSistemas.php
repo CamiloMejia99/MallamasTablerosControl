@@ -1,7 +1,12 @@
 <?php
-    include '../bd/conexion.php';
-    $perfilRequerido = "Sistemas"; // <- único cambio
-    include '../php/validar_perfil.php';
+    // 1. Validar sesión primero (si no ha iniciado sesión → fuera)
+    include '../php/validar_sesion_be.php';
+
+    // 2. Validar si el usuario pertenece al tablero
+    $tableroRequerido = "Sistemas";   // ← Cambia según el tablero
+    include '../php/validar_tablero.php';
+    // Incluir menú lateral
+    include '../php/menu_lateral.php';
 ?>
 
 
@@ -91,6 +96,11 @@
         <div class="row">
             <div class="card border-info">
                 <br>
+                <!--INICIO BOTON BACK-->    
+                    <a href="../login.php" class="btn"   style="width: 70px; height: 50px; border-color: transparent;">
+                        <img style="width:70px; height:50px;" class="card-img-top" src="../static/img/flechaIzquierda.png" alt="Regresar Menu" >
+                    </a>
+                <!--FIN BOTON BACK--> 
                 <h1 class="card-title text-center" style="margin:auto;"><b>SISTEMAS</b></h1>
                 <div class="card-body">
                     <div class="card2 card-success">
@@ -158,7 +168,7 @@
                 </button>
             </div>
             <div class="modal-body p-0">
-                <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:0; overflow:hidden;">
+                <div class="iframe-container" style="position:relative; width:100%; padding-bottom:70%; height:220px; overflow:hidden;">
                 <iframe src="https://app.powerbi.com/view?r=eyJrIjoiYmM1ZjBhMjQtN2E0Yy00YTE2LWJmMDQtMTE1MjBmOTEyYzA3IiwidCI6ImIxMmQwMGE5LWZjYjMtNDgzNi1iMDk0LWU3ZWNmZDAyM2U5OSIsImMiOjR9"
                         allowFullScreen="true"
                         style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;">
